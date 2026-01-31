@@ -1,0 +1,10 @@
+[package]
+name = "dns_signer"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.0", features = ["derive"] }
+ed25519-dalek = "2.1"
+base64 = "0.21"
+hex = "0.4"

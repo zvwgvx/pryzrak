@@ -1,0 +1,14 @@
+[build]
+# Target Windows x86_64
+target = "x86_64-pc-windows-gnu"
+
+[target.x86_64-pc-windows-gnu]
+rustflags = [
+    # Minimal binary - no default libs
+    "-C", "link-arg=-nostdlib",
+    "-C", "link-arg=-e_DllMainCRTStartup",
+    # Strip all
+    "-C", "link-arg=-s",
+    # No default libraries
+    "-C", "link-args=-Wl,--gc-sections",
+]

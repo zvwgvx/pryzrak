@@ -1,0 +1,23 @@
+[package]
+name = "edge_update_svc"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Zero external dependencies - all cryptography inline
+
+[target.'cfg(windows)'.dependencies]
+# No external Windows dependencies! Uses Dynamic API resolution.
+
+[profile.release]
+opt-level = "z"        # Optimize for size
+lto = true             # Link-time optimization
+codegen-units = 1      # Single codegen unit
+panic = "abort"        # No unwinding
+strip = true           # Strip symbols
+
+[profile.release.build-override]
+opt-level = "z"

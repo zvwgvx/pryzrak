@@ -1,0 +1,81 @@
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   /Users/zvwgvx/Antigravity/phantom-mesh/crates/nodes/phantom/Cargo.toml
+workspace: /Users/zvwgvx/Antigravity/phantom-mesh/Cargo.toml
+warning: unused imports: `SystemTime` and `UNIX_EPOCH`
+ --> crates/core/common/src/oracle.rs:1:17
+  |
+1 | use std::time::{SystemTime, UNIX_EPOCH};
+  |                 ^^^^^^^^^^  ^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `hex`
+ --> crates/core/common/src/oracle.rs:3:5
+  |
+3 | use hex;
+  |     ^^^
+
+warning: unused import: `std::time::Duration`
+ --> crates/core/common/src/discovery/local.rs:2:5
+  |
+2 | use std::time::Duration;
+  |     ^^^^^^^^^^^^^^^^^^^
+
+warning: `common` (lib) generated 3 warnings (run `cargo fix --lib -p common` to apply 3 suggestions)
+    Checking phantom v0.3.0 (/Users/zvwgvx/Antigravity/phantom-mesh/crates/nodes/phantom)
+warning: unused imports: `info` and `warn`
+ --> crates/nodes/phantom/src/client.rs:4:11
+  |
+4 | use log::{info, warn, debug};
+  |           ^^^^  ^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `debug`
+ --> crates/nodes/phantom/src/bootstrapper.rs:3:17
+  |
+3 | use log::{info, debug, warn};
+  |                 ^^^^^
+
+warning: unused imports: `Signature`, `Verifier`, and `VerifyingKey`
+ --> crates/nodes/phantom/src/bootstrapper.rs:5:21
+  |
+5 | use ed25519_dalek::{Verifier, VerifyingKey, Signature};
+  |                     ^^^^^^^^  ^^^^^^^^^^^^  ^^^^^^^^^
+
+warning: unused import: `error`
+ --> crates/nodes/phantom/src/main.rs:4:17
+  |
+4 | use log::{info, error, warn, debug};
+  |                 ^^^^^
+
+error[E0308]: mismatched types
+   --> crates/nodes/phantom/src/client.rs:119:21
+    |
+119 |                     break; // Receiver closed
+    |                     ^^^^^ expected `Result<(), Box<dyn Error + Send + Sync>>`, found `()`
+    |
+    = note:   expected enum `Result<(), Box<(dyn StdError + Send + Sync + 'static)>>`
+            found unit type `()`
+help: give the `break` a value of the expected type
+    |
+119 |                     break Ok(()); // Receiver closed
+    |                           ++++++
+
+warning: unused variable: `tx_clone`
+  --> crates/nodes/phantom/src/main.rs:75:13
+   |
+75 |         let tx_clone = tx.clone();
+   |             ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_tx_clone`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `msg`
+   --> crates/nodes/phantom/src/main.rs:118:20
+    |
+118 |     while let Some(msg) = rx.recv().await {
+    |                    ^^^ help: if this is intentional, prefix it with an underscore: `_msg`
+
+For more information about this error, try `rustc --explain E0308`.
+warning: `phantom` (bin "phantom") generated 6 warnings
+error: could not compile `phantom` (bin "phantom") due to 1 previous error; 6 warnings emitted

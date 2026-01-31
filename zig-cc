@@ -1,0 +1,21 @@
+#!/bin/bash
+# Wrapper to translate Rust target triples to Zig target triples
+# zig cc rejects "unknown-linux-gnu"
+
+args=()
+for arg in "$@"; do
+    case "$arg" in
+        --target=x86_64-unknown-linux-gnu)
+            args+=("-target" "x86_64-linux-gnu")
+            ;;
+        --target=aarch64-unknown-linux-gnu)
+            args+=("-target" "aarch64-linux-gnu")
+            ;;
+        *)
+            args+=("$arg")
+            ;;
+    esac
+done
+
+# Execute zig cc with translated arguments
+exec /opt/homebrew/bin/zig cc "${args[@]}"

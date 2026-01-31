@@ -1,0 +1,9 @@
+[package]
+name = "steg_maker_build"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+flate2 = "1.0"
+chacha20 = "0.9"
+base64 = "0.21"

@@ -1,0 +1,19 @@
+[package]
+name = "shell_plugin"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+plugin_api = { path = "../../shared/plugin_api" }
+log = "0.4"
+
+# Windows-specific for hidden process creation
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.48", features = [
+    "Win32_Foundation",
+    "Win32_System_Threading",
+    "Win32_Security"
+] }
